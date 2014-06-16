@@ -1,6 +1,11 @@
+@import 'nib/vendor'
+
+@import 'nib/gradients'
+
 azul = #22BCE0
 gris = #E8E8E8
 gris_oscuro = #444
+
 body
 	background gris
 	color gris_oscuro
@@ -8,7 +13,8 @@ body
 	font-size 16px
 
 header
-	background gris_oscuro
+	background linear-gradient(top, gris_oscuro, black)
+	/*background gris_oscuro*/
 	color white
 	padding 0.5em
 
