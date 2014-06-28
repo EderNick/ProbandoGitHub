@@ -6,6 +6,7 @@
 	<title>Puls4: Comunidad para gente atractiva y millonaria.</title>
 	<link rel="stylesheet" href="css/normalize.css"/>
 	<link rel="stylesheet" href="css/puls4.css"/>
+	<script src="js/jquery-2.1.1.min.js"></script>
 </head>
 <body>
 	<header>
@@ -50,6 +51,23 @@
 		</ul>
 	</nav>
 
+	<form>
+		<p>
+			<label for="titulo">Título</label>
+			<input id="titulo" type="text" name="titulo" placeholder="Ingrese un título">
+		</p>
+		<p>
+			<label for="autor">Autor</label>
+			<input id="autor" type="text" name="autor">
+		</p>
+		<p>
+			<label for="tag">Tag</label>
+			<input id="tag" type="text" name="tag">
+		</p>
+		<input type="submit" value="Publicar" />
+	</form>
+	
+
 	<section class="posts">
 		<article class="post">
 			<div class="descripcion">
@@ -74,7 +92,7 @@
 			<div class="acciones">
 				<div class="votos">
 					<a class="up" href="#"></a>
-					<span class="total">155</span>
+					<span class="total">-15</span>
 					<a class="down" href="#"></a>
 				</div>
 				<div class="datos">
@@ -108,7 +126,7 @@
 			<div class="acciones">
 				<div class="votos">
 					<a class="up" href="#"></a>
-					<span class="total">155</span>
+					<span class="total">3</span>
 					<a class="down" href="#"></a>
 				</div>
 				<div class="datos">
@@ -142,7 +160,7 @@
 			<div class="acciones">
 				<div class="votos">
 					<a class="up" href="#"></a>
-					<span class="total">155</span>
+					<span class="total">69</span>
 					<a class="down" href="#"></a>
 				</div>
 				<div class="datos">
@@ -176,7 +194,7 @@
 			<div class="acciones">
 				<div class="votos">
 					<a class="up" href="#"></a>
-					<span class="total">155</span>
+					<span class="total">41</span>
 					<a class="down" href="#"></a>
 				</div>
 				<div class="datos">
@@ -210,7 +228,7 @@
 			<div class="acciones">
 				<div class="votos">
 					<a class="up" href="#"></a>
-					<span class="total">155</span>
+					<span class="total">120</span>
 					<a class="down" href="#"></a>
 				</div>
 				<div class="datos">
@@ -244,7 +262,7 @@
 			<div class="acciones">
 				<div class="votos">
 					<a class="up" href="#"></a>
-					<span class="total">155</span>
+					<span class="total">32</span>
 					<a class="down" href="#"></a>
 				</div>
 				<div class="datos">
@@ -267,5 +285,94 @@
 			</span>
 		</h3>
 	</footer>
+
+	<script>
+	$(function(){
+		$('.publicar').on('click', mostrarFormulario);
+
+		function mostrarFormulario(){
+			$('form').slideToggle();
+		}
+
+		$('form').on('submit', procesarFormulario);
+
+		function procesarFormulario(evt){
+			evt.preventDefault();
+			var titulo = $('input[name="titulo"]').val();
+			var autor = $('input[name="autor"]').val();
+			var tag = $('input[name="tag"]').val();
+
+			var template = '<article class="post"> \
+			<div class="descripcion"> \
+				<figure class="imagen"> \
+					<img src="imagenes/foto.jpg"/> \
+				</figure> \
+				<div class="detalles"> \
+					<h2 class="titulo"> \
+						'+titulo+' \
+					</h2> \
+					<p class="autor"> \
+						por <a href="#">'+autor+'</a> \
+					</p> \
+					<a class="tag">'+tag+'</a> \
+					<p class="fecha"> \
+						hace <strong>0</strong> minutos \
+					</p> \
+				</div> \
+			</div> \
+			<div class="acciones"> \
+				<div class="votos"> \
+					<a class="up" href="#"></a> \
+					<span class="total">0</span> \
+					<a class="down" href="#"></a> \
+				</div> \
+				<div class="datos"> \
+					<a class="comentarios" href="#"> \
+						0 \
+					</a> \
+					<a class="estrellita" href="#"></a> \
+				</div> \
+			</div> \
+		</article>';
+
+		$('.posts').prepend($(template).fadeIn(function(){
+				$(this).css('display','inline-block');
+			})
+		);
+		$('input[type=text]').val('');
+		$('form').slideUp();
+
+		}
+	});
+
+	function crearContador(valorInicial){
+		var contador = valorInicial || 0;
+		return {
+			up: function(){
+				return ++contador;
+			},
+			down: function(){
+				return --contador;
+			}
+		};
+	};
+
+	$('.total').each(function(i, elem){
+		var contTotal = crearContador(elem.innerHTML);
+		$(elem)
+			.siblings('.up')
+				.on('click', function(evt){
+					evt.preventDefault();
+					$(elem).html(contTotal.up());
+				})
+			.siblings('.down')
+				.on('click', function(evt){
+					evt.preventDefault();
+					$(elem).html(contTotal.down());
+				});
+
+	});
+
+	</script>
 </body>
 </html>
